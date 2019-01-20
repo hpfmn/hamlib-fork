@@ -61,6 +61,7 @@
  *  i.e. each time you implement a new backend.
  */
 DEFINE_INITRIG_BACKEND(dummy);
+DEFINE_INITRIG_BACKEND(satnogs);
 DEFINE_INITRIG_BACKEND(yaesu);
 DEFINE_INITRIG_BACKEND(kenwood);
 DEFINE_INITRIG_BACKEND(icom);
@@ -111,6 +112,7 @@ static struct
 } rig_backend_list[RIG_BACKEND_MAX] =
 {
     { RIG_DUMMY, RIG_BACKEND_DUMMY, RIG_FUNCNAMA(dummy) },
+    { RIG_SATNOGS, RIG_BACKEND_SATNOGS, RIG_FUNCNAMA(satnogs) },
     { RIG_YAESU, RIG_BACKEND_YAESU, RIG_FUNCNAM(yaesu) },
     { RIG_KENWOOD, RIG_BACKEND_KENWOOD, RIG_FUNCNAM(kenwood) },
     { RIG_ICOM, RIG_BACKEND_ICOM, RIG_FUNCNAM(icom) },
