@@ -24,3 +24,20 @@ top_block_::top_block_ () {
 		this->samp_rate = samp_rate;
 }
 
+// C++ code:
+
+extern "C" void start_gnuradio();
+extern "C" void stop_gnuradio();
+top_block_* my_top_block;
+
+void start_gnuradio()
+{
+	my_top_block = new top_block_();
+	my_top_block->tb->start();
+}
+
+void stop_gnuradio()
+{
+	my_top_block->tb->stop();
+	my_top_block->tb->wait();
+}

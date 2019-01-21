@@ -256,9 +256,13 @@ static int satnogs_cleanup(RIG *rig)
 	return RIG_OK;
 }
 
+void start_gnuradio();
+void stop_gnuradio();
+
 static int satnogs_open(RIG *rig)
 {
 	rig_debug(RIG_DEBUG_VERBOSE,"%s called\n", __FUNCTION__);
+	start_gnuradio();
 
 	return RIG_OK;
 }
@@ -266,6 +270,7 @@ static int satnogs_open(RIG *rig)
 static int satnogs_close(RIG *rig)
 {
 	rig_debug(RIG_DEBUG_VERBOSE,"%s called\n", __FUNCTION__);
+	stop_gnuradio();
 
 	return RIG_OK;
 }
