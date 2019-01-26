@@ -1,13 +1,16 @@
 #include <gnuradio/top_block.h>
 #include <gnuradio/analog/noise_source_c.h>
 #include <gnuradio/blocks/udp_sink.h>
+#include <boost/dll/import.hpp>
+#include "plugins/plugin.hpp"
 
 using namespace gr;
 
 class top_block_ {
 	private:
-		blocks::udp_sink::sptr blocks_udp_sink_0;
-		analog::noise_source_c::sptr analog_noise_source_x_0;
+		hier_block2_sptr demoder_block;
+		hier_block2_sptr decoder_block;
+		std::map<std::string, boost::shared_ptr<satnogs_plugin_block>> plugin_registry;
 	// Variables:
 		int samp_rate = 32000;
 	public:
@@ -17,5 +20,6 @@ class top_block_ {
 
 		int get_samp_rate () const;
 		void set_samp_rate(int samp_rate);
+		void set_mode(std::string mode);
 };
 
