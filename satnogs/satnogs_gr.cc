@@ -1,7 +1,10 @@
 #include "satnogs_cc.h"
+#include <osmosdr/source.h>
+#include <gnuradio/audio/sink.h>
 
 using namespace gr;
 namespace dll = boost::dll;
+
 
 top_block_::top_block_ () {
 	this->tb = gr::make_top_block("top_block");
@@ -26,15 +29,21 @@ top_block_::top_block_ () {
 			}
 	}
 
-	/*// Blocks:
-		{
-			this->demoder_block = blocks::udp_sink::make(sizeof(gr_complex), "127.0.0.1", 1337, 1472, true);
-		}
-		{
-			this->analog_noise_source_x_0 = analog::noise_source_c::make(analog::GR_GAUSSIAN, 1, 0);
-		}
-	// Connections:
-		this->tb->hier_block2::connect(this->analog_noise_source_x_0, 0, this->blocks_udp_sink_0, 0);*/
+	this->set_mode("WFM");
+
+	int audio_sampling_rate = 48'000;
+	double rx_sampling_rate = 2'000'000;
+	double lo_offset = 250'000;
+	double f_rx = 99'300'000;
+
+	osmosdr::source::sptr sdr(osmosdr::source::make("driver=lime,soapy=0"));
+	sdr->set_sample_rate(rx_sampling_rate);
+	sdr->set_center_freq(f_rx - lo_offset);
+
+	gr::audio::sink::sptr audio_out(gr::audio::sink::make(audio_sampling_rate));
+
+	this->tb->hier_block2::connect(sdr, 0, this->demoder_block, 0);
+	this->tb->hier_block2::connect(this->demoder_block, 0, audio_out, 0);
 }
 
 top_block_::~top_block_ () {

@@ -340,6 +340,7 @@ static int satnogs_get_freq(RIG *rig, vfo_t vfo, freq_t *freq)
 	return RIG_OK;
 }
 
+void satnogs_gr_set_mode(const char* mode);
 
 static int satnogs_set_mode(RIG *rig, vfo_t vfo, rmode_t mode, pbwidth_t width)
 {
@@ -352,6 +353,12 @@ static int satnogs_set_mode(RIG *rig, vfo_t vfo, rmode_t mode, pbwidth_t width)
 			rig_strvfo(vfo), rig_strrmode(mode), buf);
 
 	curr->mode = mode;
+
+	switch(curr->mode) {
+		case RIG_MODE_FM:
+			satnogs_gr_set_mode("FM");
+			break;
+	}
 
 	if (RIG_PASSBAND_NOCHANGE == width) return RIG_OK;
 
